@@ -6,7 +6,7 @@ app.get("/api/friends", function(req, res) {
   return res.json(characters);
 });
 
-app.post("app/data/friends.js", function(req, res) {
+app.post("/api/friends", function(req, res) {
   // req.body hosts is equal to the JSON post sent from the user
   // This works because of our body parsing middleware
   var newCharacter = req.body;
