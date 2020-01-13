@@ -14,37 +14,31 @@ app.use(express.json());
 require("../routing/apiRoutes")(app);
 require("../routing/htmlRoutes")(app);
 
-function runTableQuery() {
+function friendNum() {
   // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
   $.ajax({ url: "/api/friends", method: "GET" })
-    .then(function(tableData) {
+    .then(function(friends) {
 
       // Here we then log the tableData to console, where it will show up as an object.
-      console.log(tableData);
-      console.log("------------------------------------");
+      console.log(friends);
 
-      // Loop through and display each of the customers
-      for (var i = 0; i < tableData.length; i++) {
+      // * Convert each user's results into a simple array of numbers (ex: `[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]`).
+      //    * With that done, compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the `totalDifference`.
+      //      * Example:
+      //        * User 1: `[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]`
+      //        * User 2: `[3, 2, 6, 4, 5, 1, 2, 5, 4, 1]`
+      //        * Total Difference: **2 + 1 + 2 =** **_5_**
+      //    * Remember to use the absolute value of the differences. Put another way: no negative solutions! Your app should calculate both `5-3` and `3-5` as `2`, and so on.
+      //    * The closest match will be the user with the least amount of difference.
 
-        // Get a reference to the tableList element and populate it with tables
-        var tableList = $("#tableList");
+      // 7. Once you've found the current user's most compatible friend, display the result as a modal pop-up.
+      //    * The modal should display both the name and picture of the closest match.
 
-        // Then display the fields in the HTML (Section Name, Date, URL)
-        var listItem = $("<li class='list-group-item mt-4'>");
-
-        listItem.append(
-          $("<h2>").text("Table #" + (i + 1)),
-          $("<hr>"),
-          $("<h2>").text("ID: " + tableData[i].customerID),
-          $("<h2>").text("Name: " + tableData[i].customerName),
-          $("<h2>").text("Email: " + tableData[i].customerEmail),
-          $("<h2>").text("Phone: " + tableData[i].phoneNumber)
-        );
-
-        tableList.append(listItem);
-      }
     });
 }
+
+//Run the comparison
+friendNum();
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);
