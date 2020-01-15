@@ -309,8 +309,7 @@
         }
 
 
-      $.post("api/friends", guy1)
-        .then(function(data) {
+      $.post("api/friends", guy1, function(data) {
           console.log("this works")
           // console.log("add.html", data);
           // alert("Adding character...");
