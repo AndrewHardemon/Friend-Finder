@@ -1,4 +1,3 @@
-<!-- 10 questions with 1-5 for each least agree to most agree -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 </head>
@@ -18,6 +18,32 @@
       <h1>Friend Survey</h1>
       <hr>
       <h3>Answer 1(Strongly Disagree) to 5(Strongly Agree)</h3>
+    </div>
+    <!-- Name -->
+    <div class="row">
+      <div class="col-md-5">
+        <form>
+          <div class="form-group">
+            <input type="name" class="form-control" id="inputName" placeholder="Your Name">
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- Picture -->
+    <div class="row">
+      <div class="col-md-3">
+        <form class="md-form">
+          <div class="file-field">
+            <div class="btn btn-primary btn-sm float-left">
+              <!-- <span>Choose file</span> -->
+              <input type="file" id="inputPicture">
+            </div>
+            <!-- <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Upload your file">
+            </div> -->
+          </div>
+        </form>
+      </div>
     </div>
     <!-- Question 1 -->
     <div class="row">
@@ -295,54 +321,74 @@
     <!-- Java Script -->
     <!-- <script src="assets/javascript/app.js"></script> -->
     <script type="text/javascript">
+      //var list = require("../data/friends.js")
+    
+      var newGuy = {};
 
       $('#add-score').click(function(){
         event.preventDefault();
         var newFriend = [];
+        //Get Answer Array
         $(':checkbox:checked').each(function(i){
           newFriend[i] = $(this).attr("value");
         });
+        //Get Name and Picture
+        var name = $("#inputName").val()
+        var pic = $("#inputPicture").val()
+        console.log(name)
+        console.log(pic)
         console.log(newFriend)
-        var guy1 = {
-          name: 'bob',
+        //New object with variables
+        newGuy = {
+          name: name,
+          photo: pic,
           scores: newFriend
         }
 
+        //Post the object to friends.js
+        $.post("/api/friends", newGuy)
+          .then(function(req, res) {
+            console.log("this works")
+            console.log(req.body)
+        });
 
-      $.post("api/friends", guy1, function(data) {
-          console.log("this works")
-          // console.log("add.html", data);
-          // alert("Adding character...");
-      });
+        // var findFren = require("../../server.js");
+        // findFren.func;
+  function friendNum() {
+    // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+    $.get("/api/friends", function(friends){
+      console.log("friends")
 
-      // $.post("/api/tables", newReservation,
-      // function(data) {
+      var compare = [];
+      var bestFriend = 100;
+      var frenNum = 0;
 
-      //   // If a table is available... tell user they are booked.
-      //   if (data) {
-      //     alert("Yay! You are officially booked!");
-      //   }
+      //Compare each friend to newest entry with all their values
+      for(i = 0; i < friends.length-1; i++){
+        for(j = 0; j < 10; j++){
+          compare[i] += Math.abs(friends[i].scores[j] - friends[friends.length-1].scores[j]);
+        }
+      }
 
-      //   // If a table is available... tell user they on the waiting list.
-      //   else {
-      //     alert("Sorry you are on the wait list");
-      //   }
+      //Figure out which friend has the lowest number compared to you
+      for(i = 0; i < compare.length; i++){
+        if(compare[i] < bestFriend){
+          bestFriend = compare[i];
+          frenNum = i;
+        }
+      }
 
-      //   // Clear the form when submitting
-      //   $("#reserve-name").val("");
-      //   $("#reserve-phone").val("");
-      //   $("#reserve-email").val("");
-      //   $("#reserve-unique-id").val("");
-
-      // });
+      alert(friends[frenNum].name + "is your closest match")
+      })
+    }
+    friendNum();
+  });
 
 
+      // import * as myFn from "../../server.js";
+      // myFn.friendNum();
 
-
-      });
     </script>
-
-
 
 </body>
 </html>

@@ -2,6 +2,9 @@
 //POST routes '/api/friends' that will handle incoming survey results
 //also used to handle the compatibility logic
 
+//var connection = require("../data/friends.js");
+var friends = require("../data/friends.js")
+
 module.exports = function(app) {
 
   app.get("/api/friends", function(req, res) {

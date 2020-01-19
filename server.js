@@ -1,3 +1,5 @@
+
+
 var express = require("express");
 var path = require("path");
 
@@ -10,35 +12,50 @@ var PORT = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use(express.static("app/public"))
+
 //Routing files
-require("../routing/apiRoutes")(app);
-require("../routing/htmlRoutes")(app);
+require("./app/routing/apiRoutes.js")(app);
+require("./app/routing/htmlRoutes.js")(app);
 
-function friendNum() {
-  // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
-  $.ajax({ url: "/api/friends", method: "GET" })
-    .then(function(friends) {
 
-      // Here we then log the tableData to console, where it will show up as an object.
-      console.log(friends);
+// <reference path="app/data/survey.html" />
+// document.writeln('<script src="/javascripts/jquery.js" type="text/javascript"></sc'+'ript>');
+// document.writeln('<script type="text/javascript" src="/javascripts/jquery.tablesorter.js"></sc'+'ript>');
 
-      // * Convert each user's results into a simple array of numbers (ex: `[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]`).
-      //    * With that done, compare the difference between current user's scores against those from other users, question by question. Add up the differences to calculate the `totalDifference`.
-      //      * Example:
-      //        * User 1: `[5, 1, 4, 4, 5, 1, 2, 5, 4, 1]`
-      //        * User 2: `[3, 2, 6, 4, 5, 1, 2, 5, 4, 1]`
-      //        * Total Difference: **2 + 1 + 2 =** **_5_**
-      //    * Remember to use the absolute value of the differences. Put another way: no negative solutions! Your app should calculate both `5-3` and `3-5` as `2`, and so on.
-      //    * The closest match will be the user with the least amount of difference.
 
-      // 7. Once you've found the current user's most compatible friend, display the result as a modal pop-up.
-      //    * The modal should display both the name and picture of the closest match.
 
-    });
-}
+// function friendNum() {
+//   // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
+//   $.get("/api/friends", function(friends){
+//     console.log("friends")
+
+//     var compare = [];
+//     var bestFriend = 100;
+//     var frenNum = 0;
+
+//     //Compare each friend to newest entry with all their values
+//     for(i = 0; i < friends.length-1; i++){
+//       for(j = 0; j < 10; j++){
+//         compare[i] += Math.abs(friends[i].scores[j] - friends[friends.length-1].scores[j]);
+//       }
+//     }
+
+//     //Figure out which friend has the lowest number compared to you
+//     for(i = 0; i < compare.length; i++){
+//       if(compare[i] < bestFriend){
+//         bestFriend = compare[i];
+//         frenNum = i;
+//       }
+//     }
+
+//     alert(friends[frenNum].name + "is your closest match")
+//   })
+// }
 
 //Run the comparison
-friendNum();
+//export function friendNum();
+//module.exports = {func: friendNum()}
 
 app.listen(PORT, function() {
   console.log("App listening on PORT " + PORT);

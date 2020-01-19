@@ -1,6 +1,10 @@
 //Save all app data inside of 'app/data/friends.js' as an array of objects
 //this is the format
 
+
+//var nextFriend = require("../public/survey.html")
+//var nextFriend = localStorage.getItem("newGuystored")
+
 var friends = [
   {
     name:"Bob",
