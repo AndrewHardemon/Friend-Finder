@@ -12,6 +12,27 @@ var friends = [
     scores:[
       5,1,4,4,5,1,2,5,4,1
     ]
+  },
+  {
+    name:"Jeff",
+    photo:"https://www.pitzer.edu/academics/wp-content/uploads/sites/38/2014/12/FAC-Jeff-Lewis.jpg",
+    scores:[
+      2,4,1,1,1,3,4,5,2,2
+    ]
+  },
+  {
+    name:"Bigboy",
+    photo:"https://www.peta.org/wp-content/uploads/2018/09/big-boy-2.jpg",
+    scores:[
+      5,5,5,5,5,5,5,5,5,5
+    ]
+  },
+  {
+    name:"Alfred",
+    photo:"https://space.mines.edu/wp-content/uploads/sites/134/2018/10/bill-eustes.jpeg",
+    scores:[
+      4,5,3,2,3,4,5,1,2,5
+    ]
   }
 ];
 

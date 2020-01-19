@@ -10,6 +10,7 @@
   <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- <link rel="stylesheet" href="../css/style.css"> -->
 
 </head>
 <body>
@@ -18,6 +19,8 @@
       <h1>Friend Survey</h1>
       <hr>
       <h3>Answer 1(Strongly Disagree) to 5(Strongly Agree)</h3>
+      <br>
+      <a class="btn btn-primary btn-md" href="./home.html" role="button">Go Back Home</a>
     </div>
     <!-- Name -->
     <div class="row">
@@ -315,16 +318,20 @@
         </div>
       </div>
     </div>
-
+    <!-- Modal Popup Box -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+        </div>
+    </div>
 
 
     <!-- Java Script -->
-    <!-- <script src="assets/javascript/app.js"></script> -->
     <script type="text/javascript">
-      //var list = require("../data/friends.js")
-    
+
       var newGuy = {};
 
+      //On click
       $('#add-score').click(function(){
         event.preventDefault();
         var newFriend = [];
@@ -357,18 +364,22 @@
   function friendNum() {
     // The AJAX function uses the URL of our API to GET the data associated with it (initially set to localhost)
     $.get("/api/friends", function(friends){
-      console.log("friends")
+      console.log(friends)
 
+      var compareNum = 0;
       var compare = [];
       var bestFriend = 100;
       var frenNum = 0;
 
       //Compare each friend to newest entry with all their values
       for(i = 0; i < friends.length-1; i++){
+        compareNum = 0;
         for(j = 0; j < 10; j++){
-          compare[i] += Math.abs(friends[i].scores[j] - friends[friends.length-1].scores[j]);
+          compareNum += Math.abs(friends[i].scores[j] - friends[friends.length-1].scores[j]);
         }
+        compare.push(compareNum)
       }
+      console.log(compare)
 
       //Figure out which friend has the lowest number compared to you
       for(i = 0; i < compare.length; i++){
@@ -377,16 +388,54 @@
           frenNum = i;
         }
       }
+      console.log(bestFriend)
+      console.log(frenNum)
 
-      alert(friends[frenNum].name + "is your closest match")
-      })
+      //Add name and image to Modal
+      var h1Tag = $("<h1>");
+      var nameVal = friends[frenNum].name + " is your new Best Friend!"
+      h1Tag.append(nameVal);
+
+
+      var imgTag = $("<img>");
+      var picVal = friends[frenNum].photo
+      console.log(friends[frenNum].photo)
+      imgTag.attr("src", picVal);
+      imgTag.attr("height", 400);
+      imgTag.attr("width", 400);
+
+      $(".modal-content").append(h1Tag);
+      $(".modal-content").append(imgTag);
+      // Get the modal
+      var modal = document.getElementById("myModal");
+
+      modal.style.display = "block";
+      });
     }
+    //Run the function
     friendNum();
+
   });
 
+    // GEt rid of the model
+    var modal = document.getElementById("myModal");
 
-      // import * as myFn from "../../server.js";
-      // myFn.friendNum();
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+      window.location.reload(true);
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+        window.location.reload(true);
+      }
+    }
 
     </script>
 
