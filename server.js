@@ -57,6 +57,6 @@ require("./app/routing/htmlRoutes.js")(app);
 //export function friendNum();
 //module.exports = {func: friendNum()}
 
-app.listen(PORT, function() {
+app.listen(process.env.PORT || PORT, function() {
   console.log("App listening on PORT " + PORT);
 });
